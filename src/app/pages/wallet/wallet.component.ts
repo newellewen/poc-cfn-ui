@@ -4,8 +4,7 @@ import {
   RadixNetwork,
   DataRequestBuilder,
   Logger,
-  WalletData,
-  Account
+  WalletDataStateAccount
 } from '@radixdlt/radix-dapp-toolkit'
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 
@@ -19,7 +18,7 @@ import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 })
 export class WalletComponent {
   
-  public account?: Account;
+  public accounts?: WalletDataStateAccount;
 
   private rdt = RadixDappToolkit({
     dAppDefinitionAddress:
@@ -34,29 +33,11 @@ export class WalletComponent {
   
 
   ngOnInit() {
-    this.rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1))
-    // Subscribe to updates to the user's shared wallet data
+    this.rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1));
+    
     this.rdt.walletApi.walletData$.subscribe((walletData) => {
-      this.account = walletData.accounts[0];
-    })
-    // let thing = this.gatewayApi.state.getEntityDetailsVaultAggregated('account_tdx_2_129m6s0exegqqza8wmpvj8x3fpl22xhv84s29xx3gh4rmnn3kyg3qhg');
-    // thing.then(data => {
-    //   console.log('account');
-    //   console.log(data);
-    //   this.entityData = data;
-    // });
-
-    // this.gatewayApi.state.getAllEntityMetadata('resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc')
-    // .then(data => {
-    //   console.log(data);
-    // });
-
-    // this.rdt.walletApi.walletData$.subscribe((walletData) => {
-    //   console.log("connected wallet data: ", walletData);
-      
-    //   let account = walletData.accounts[0];
-    //   console.log("Account: ", account);
-    // });
+      this.accounts = walletData.accounts[0];
+    });
 
   }
 }
