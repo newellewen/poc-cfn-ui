@@ -4,5 +4,5 @@
     <radix-connect-button />
 </div>
 <div>
-    <button type="button" class="btn btn-primary">Small button</button>
+    <button *ngFor="let account of accounts" type="button" class="btn btn-primary">Load Account: {{ account.label }}</button>
 </div>
