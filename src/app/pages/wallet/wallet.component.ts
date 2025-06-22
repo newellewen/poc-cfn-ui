@@ -4,13 +4,16 @@ import {
   RadixNetwork,
   DataRequestBuilder,
   Logger,
-  WalletDataStateAccount
+  WalletDataStateAccount,
+  Account
 } from '@radixdlt/radix-dapp-toolkit'
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-wallet',
-  imports: [],
+  imports: [CommonModule, MatButtonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
   templateUrl: './wallet.component.html',
@@ -18,7 +21,8 @@ import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 })
 export class WalletComponent {
   
-  public accounts?: WalletDataStateAccount;
+  public accounts?: WalletDataStateAccount[];
+  public currentAccount?: Account;
 
   private rdt = RadixDappToolkit({
     dAppDefinitionAddress:
@@ -34,10 +38,15 @@ export class WalletComponent {
 
   ngOnInit() {
     this.rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1));
-    
+
     this.rdt.walletApi.walletData$.subscribe((walletData) => {
-      this.accounts = walletData.accounts[0];
+      this.accounts = walletData.accounts;
+      console.log(walletData);
     });
+  }
+
+  loadAccountData() {
 
   }
+
 }
